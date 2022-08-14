@@ -1,20 +1,20 @@
-import React, { useState, Fragment } from "react";
-import { Link, Redirect } from "react-router-dom";
-import "./Login.css";
+import React, { useState, Fragment } from 'react';
+import { Link, Redirect } from 'react-router-dom';
+import './Login.css';
 // import axios from "axios";
-import { connect } from "react-redux";
-import { loginUser, startLoading } from "../../../store/actions/auth";
-import Spinner from "../../layout/Spinner";
+import { connect } from 'react-redux';
+import { loginUser, startLoading } from '../../../store/actions/auth';
+import Spinner from '../../layout/Spinner';
 const Login = ({ isAuthenticated, loginUser, loading, startLoading }) => {
   const [formData, setformData] = useState({
-    email: "",
-    password: ""
+    email: '',
+    password: '',
   });
   const { email, password } = formData;
-  const onChange = e => {
+  const onChange = (e) => {
     setformData({ ...formData, [e.target.name]: e.target.value });
   };
-  const onSubmit = async e => {
+  const onSubmit = async (e) => {
     e.preventDefault();
     startLoading();
     loginUser(email, password);
@@ -28,8 +28,7 @@ const Login = ({ isAuthenticated, loginUser, loading, startLoading }) => {
       {loading ? (
         <Spinner />
       ) : (
-      
-      <div className="cui__utils__content">
+        <div className="cui__utils__content">
           <div className="cui__auth__authContainer">
             <div className="cui__auth__topbar">
               <div className="cui__auth__logoContainer">
@@ -51,8 +50,9 @@ const Login = ({ isAuthenticated, loginUser, loading, startLoading }) => {
             <div className="cui__auth__containerInner">
               <div className="text-center mb-5">
                 <h1 className="mb-5 px-3">
-                  
-                  <strong>Welcome to Eaglance <small>(Super Admin Panel)</small></strong>
+                  <strong>
+                    Welcome to Alphawork <small>(Super Admin Panel)</small>
+                  </strong>
                 </h1>
                 {/* <p className="mb-4">
         Pluggable enterprise-level application framework.
@@ -64,7 +64,7 @@ const Login = ({ isAuthenticated, loginUser, loading, startLoading }) => {
                 <div className="text-dark font-size-24 mb-4">
                   <strong>Sign in to your account</strong>
                 </div>
-                <form action="#" className="mb-4" onSubmit={e => onSubmit(e)}>
+                <form action="#" className="mb-4" onSubmit={(e) => onSubmit(e)}>
                   <div className="form-group mb-4">
                     <input
                       type="email"
@@ -72,7 +72,7 @@ const Login = ({ isAuthenticated, loginUser, loading, startLoading }) => {
                       placeholder="Email Address"
                       name="email"
                       value={email}
-                      onChange={e => onChange(e)}
+                      onChange={(e) => onChange(e)}
                       required
                     />
                   </div>
@@ -82,7 +82,7 @@ const Login = ({ isAuthenticated, loginUser, loading, startLoading }) => {
                       className="form-control"
                       placeholder="Password"
                       value={password}
-                      onChange={e => onChange(e)}
+                      onChange={(e) => onChange(e)}
                       name="password"
                       required
                     />
@@ -136,16 +136,13 @@ const Login = ({ isAuthenticated, loginUser, loading, startLoading }) => {
             </div>
           </div>
         </div>
-     
-     
-     )}
-
+      )}
     </Fragment>
   );
 };
 
-const mapStatetoProps = state => ({
+const mapStatetoProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
-  loading: state.auth.loading
+  loading: state.auth.loading,
 });
 export default connect(mapStatetoProps, { loginUser, startLoading })(Login);

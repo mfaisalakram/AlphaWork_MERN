@@ -21,7 +21,7 @@ const BecomeASeller = (props) => {
             localStorage.setItem('userToken', response.data.token);
             props.setToast([
               {
-                msg: 'Congratulation! Now you are a Seller on Eaglance.Please Complete your Profile',
+                msg: 'Congratulation! Now you are a Seller on Alphawork.Please Complete your Profile',
                 type: 'success',
               },
             ]);

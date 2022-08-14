@@ -50,7 +50,6 @@ const Header = (props) => {
             </button>
             <a className="navbar-brand" href="/">
               <img src={logo} className="logo" width={'100%'} alt="Image" />
-              {/* Eaglance */}
             </a>
           </div>
 
@@ -100,24 +99,25 @@ const Header = (props) => {
   if (props.isAuthenticated && props.user) {
     console.log(props.user.account_type);
     if (props.user.account_type === 'banned') {
-    } else if (props.user.account_status === 'notverified') {
-      verifyEmail = (
-        <div className=" alert alert-danger verifyemail">
-          <p>
-            Your email is not verified yet.We send you confirmation code at{' '}
-            <strong>{props.user.email}</strong>.{' '}
-            <a href="#" data-toggle="modal" data-target="#confirmEmail">
-              {' '}
-              Enter code
-            </a>{' '}
-            {/* |{" "}
-            <a data-toggle="modal" data-target="#changemail" href="#">
-              Change email
-            </a> */}
-          </p>
-        </div>
-      );
     }
+    // else if (props.user.account_status === 'notverified') {
+    //   verifyEmail = (
+    //     <div className=" alert alert-danger verifyemail">
+    //       <p>
+    //         Your email is not verified yet.We send you confirmation code at{' '}
+    //         <strong>{props.user.email}</strong>.
+    //         <a href="#" data-toggle="modal" data-target="#confirmEmail">
+    //           {' '}
+    //           Enter code
+    //         </a>{' '}
+    //         {/* |{" "}
+    //         <a data-toggle="modal" data-target="#changemail" href="#">
+    //           Change email
+    //         </a> */}
+    //       </p>
+    //     </div>
+    //   );
+    // }
     if (props.user.current_type === 'seller') {
       header = (
         <header className="tr-header">
@@ -199,7 +199,7 @@ const Header = (props) => {
                       <a className="dropdown-item" href="dashboard.html">
                         <span>Dashboard</span>
                       </a>
-                      <a className="dropdown-item" href="profile.html">
+                      <a className="dropdown-item" href="">
                         <span>Profile</span>
                       </a>
                       <a className="dropdown-item" href="editprofile.html">

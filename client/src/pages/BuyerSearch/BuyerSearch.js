@@ -8,7 +8,6 @@ import querySearch from 'stringquery';
 import Spinner from '../../components/layout/Spinner';
 
 const BuyerSearch = (props) => {
-  //  const[pageloading,setpageloading]=useState(true);
   const getKeyvalue = (k) => {
     const search = props.location.search;
     const query = querySearch(decodeURI(search));
@@ -44,7 +43,6 @@ const BuyerSearch = (props) => {
     price_min: '',
     price_max: '',
   });
-  console.log(servicesData);
   const [sellerLanguagesInputs, setsellerLanguagesInputs] = useState([]);
   const [sellerLanguages, setsellerLanguages] = useState([]);
   const [sellerCountries, setsellerCountries] = useState([]);
@@ -84,9 +82,6 @@ const BuyerSearch = (props) => {
     }
 
     addOrEditParams('seller_type', arr2.join('-'));
-
-    // props.history.push('/services/search?seller_type='+)
-    // console.log("4545",)
 
     setsellerLevelsInputs({
       ...sellerLevelsInputs,
@@ -432,7 +427,7 @@ const BuyerSearch = (props) => {
 
                                   <span className="count">
                                     (
-                                    {sellerLevels.length === 4
+                                    {sellerLevels?.length === 4
                                       ? sellerLevels[3].counts
                                         ? sellerLevels[3].counts
                                         : '0'
@@ -460,7 +455,7 @@ const BuyerSearch = (props) => {
                                   </span>
                                   <span className="count">
                                     (
-                                    {sellerLevels.length === 4
+                                    {sellerLevels?.length === 4
                                       ? sellerLevels[2].counts
                                         ? sellerLevels[2].counts
                                         : '0'
@@ -486,7 +481,7 @@ const BuyerSearch = (props) => {
                                   </span>
                                   <span className="count">
                                     (
-                                    {sellerLevels.length === 4
+                                    {sellerLevels?.length === 4
                                       ? sellerLevels[1].counts
                                         ? sellerLevels[1].counts
                                         : '0'
@@ -513,7 +508,7 @@ const BuyerSearch = (props) => {
                                   </span>
                                   <span className="count">
                                     (
-                                    {sellerLevels.length === 4
+                                    {sellerLevels?.length === 4
                                       ? sellerLevels[0].counts
                                         ? sellerLevels[0].counts
                                         : '0'
@@ -528,83 +523,8 @@ const BuyerSearch = (props) => {
                       </div>
                       <hr />
 
-                      {/*                       
-                      <div className="more-filter-item with-carrot">
-                        <div className="content-title"> Seller Speaks </div>
-                        <div className="checkbox-list">
-                          <div className="row">
-                            {sellerLanguages
-                              ? sellerLanguages.map(lang => {
-                                  return (
-                                    <div className="col-md-6">
-                                      <label className="filter-label">
-                                        <input
-                                          type="checkbox"
-                                          name="en"
-                                          value="en"
-                                          // checked={}
-                                          checked={checkValueInParams('seller_languages',lang.name)}
-                                          onChange={e=>onLanguageChange(e,lang.name)}
-                                        />
-
-                                        <div className="inner-checkbox">
-                                          <span className="filter-label">
-                                            {lang.name}
-                                          </span>
-                                          <span className="count">
-                                            {" "}
-                                            ({lang.counts})
-                                          </span>
-                                        </div>
-                                      </label>
-                                    </div>
-                                  );
-                                })
-                              : "<p>no</p>"}
-                          </div>
-                        </div>
-                      </div>
-                    
-                      <hr /> */}
-
-                      {/* <div className="more-filter-item with-carrot">
-                        <div className="content-title">Seller Lives In </div>
-                        <div className="checkbox-list">
-                          <div className="row">
-                            {sellerCountries
-                              ? sellerCountries.map(country => {
-                                  return (
-                                    <div className="col-md-6">
-                                      <label className="filter-label">
-                                        <input
-                                          type="checkbox"
-                                          checked={checkValueInParams('seller_country',country.name)}
-                                          onChange={e =>
-                                            onCountryChange(e, country.name)
-                                          }
-                                        />
-
-                                        <div className="inner-checkbox">
-                                          <span className="filter-label">
-                                            {country.name}
-                                          </span>
-                                          <span className="count">
-                                            {" "}
-                                            {country.counts}
-                                          </span>
-                                        </div>
-                                      </label>{" "}
-                                    </div>
-                                  );
-                                })
-                              : ""}
-                          </div>
-                        </div>
-                      </div> */}
                       <hr />
-                      <div className="options">
-                        {/* <button className="apply">Clear Filter</button> */}
-                      </div>
+                      <div className="options"></div>
                     </div>
                   </div>
                 </div>

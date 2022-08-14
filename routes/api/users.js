@@ -83,12 +83,12 @@ router.post(
 
           let code = Math.floor(100000 + Math.random() * 900000);
           // send mail with defined transport object
-          let info = await transporter.sendMail({
-            from: '"Eaglance lnc." <mail.testing4clients@gmail.com>', // sender address
-            to: email, // list of receivers
-            subject: 'Eaglance - Email Verification', // Subject line
-            html: 'verification Code: ' + code, // html body
-          });
+          // let info = await transporter.sendMail({
+          //   from: '"Eaglance lnc." <mail.testing4clients@gmail.com>', // sender address
+          //   to: email, // list of receivers
+          //   subject: 'Eaglance - Email Verification', // Subject line
+          //   html: 'verification Code: ' + code, // html body
+          // });
 
           const sql =
             "insert into users(fname,lname,email,password,username,created_date,account_type,profile_image,verification_code) values(?,?,?,?,?,now(),'buyer',?,?)";
@@ -136,12 +136,12 @@ router.post('/resend-code', [auth], async (req, res) => {
   console.log(req.user);
   let code = Math.floor(100000 + Math.random() * 900000);
   // send mail with defined transport object
-  let info = await transporter.sendMail({
-    from: '"Eaglance lnc." <mail.testing4clients@gmail.com>', // sender address
-    to: req.user.email, // list of receivers
-    subject: 'Eaglance - Email Verification', // Subject line
-    html: 'verification Code: ' + code, // html body
-  });
+  // let info = await transporter.sendMail({
+  //   from: '"Eaglance lnc." <mail.testing4clients@gmail.com>', // sender address
+  //   to: req.user.email, // list of receivers
+  //   subject: 'Eaglance - Email Verification', // Subject line
+  //   html: 'verification Code: ' + code, // html body
+  // });
 
   let sql = 'update users set verification_code=? where email=?';
   connection.query(
@@ -164,12 +164,12 @@ router.post('/forget-password-code', async (req, res) => {
 
   let code = Math.floor(100000 + Math.random() * 900000);
   // send mail with defined transport object
-  let info = await transporter.sendMail({
-    from: '"Eaglance lnc." <mail.testing4clients@gmail.com>', // sender address
-    to: req.body.email, // list of receivers
-    subject: 'Eaglance - Forget Password', // Subject line
-    html: 'verification Code: ' + code, // html body
-  });
+  // let info = await transporter.sendMail({
+  //   from: '"Eaglance lnc." <mail.testing4clients@gmail.com>', // sender address
+  //   to: req.body.email, // list of receivers
+  //   subject: 'Eaglance - Forget Password', // Subject line
+  //   html: 'verification Code: ' + code, // html body
+  // });
 
   var date = new Date();
   let sql = 'update users set forget_code=? and expirytime=? where email=?';

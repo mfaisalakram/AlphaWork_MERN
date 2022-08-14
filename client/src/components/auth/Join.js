@@ -359,7 +359,7 @@ const Join = (props) => {
             <div className="col-md-12">
               <div id="Join">
                 <h1 className="large text-primary text-center">
-                  Join Eaglance
+                  Join Alphawork
                 </h1>
 
                 {html}

@@ -122,11 +122,7 @@ router.get('/search/', [], async (req, res) => {
         const result2 = {
           services: [...results[0]],
           categories: [...results[1]],
-          sellerlevels: [...results[2]],
-          // sellerlanguages: [...results[3]],
-          // sellerCountries: [...results[4]]
-          //  categories: [],
-          // sellerlevels: [],
+          // sellerlevels: [...results[2]],
           sellerlanguages: [],
           sellerCountries: [],
         };

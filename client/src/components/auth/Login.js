@@ -66,7 +66,7 @@ const Login = (props) => {
   let html = (
     <div>
       {' '}
-      <h2 className="large text-primary text-center">Sign in to Eaglance</h2>
+      <h2 className="large text-primary text-center">Sign in to Alphawork</h2>
       <form className="form" onSubmit={(e) => onSubmit(e)}>
         {erroremail.show && <p className="errorMessage">{erroremail.msg}</p>}
         <div className="form-group">

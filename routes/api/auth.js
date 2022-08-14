@@ -1,20 +1,20 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const { check, validationResult } = require("express-validator");
-const auth = require("../../middleware/auth");
-const User = require("../../models/User");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const config = require("config");
-const connection = require("../../config/dbMySQL");
-const nodemailer = require("nodemailer");
-const { date } = require("joi");
+const { check, validationResult } = require('express-validator');
+const auth = require('../../middleware/auth');
+const User = require('../../models/User');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const config = require('config');
+const connection = require('../../config/dbMySQL');
+const nodemailer = require('nodemailer');
+const { date } = require('joi');
 //  @route  Get api/auth
 //  @desc   load user
 //  @access Public
 
-const baseUrl = "http://localhost:3000";
-router.get("/", auth, (req, res) => {
+const baseUrl = 'http://localhost:3000';
+router.get('/', auth, (req, res) => {
   try {
     try {
       connection.query(
@@ -33,11 +33,11 @@ router.get("/", auth, (req, res) => {
       );
     } catch (error) {
       console.log(error.message);
-      return res.status(500).send("server error " + error.message);
+      return res.status(500).send('server error ' + error.message);
     }
   } catch (error) {
     console.log(error.message);
-    return res.status(500).send("server error " + error.message);
+    return res.status(500).send('server error ' + error.message);
   }
 });
 
@@ -45,7 +45,7 @@ router.get("/", auth, (req, res) => {
 //  @desc   load user
 //  @access Public
 
-router.get("/checkemail/:email", (req, res, next) => {
+router.get('/checkemail/:email', (req, res, next) => {
   try {
     connection.query(
       "select * from users where email='" + req.params.email + "'",
@@ -61,11 +61,11 @@ router.get("/checkemail/:email", (req, res, next) => {
     );
   } catch (error) {
     console.log(error.message);
-    return res.status(500).send("server error " + error.message);
+    return res.status(500).send('server error ' + error.message);
   }
 });
 
-router.post("/send-reset-link", async (req, res, next) => {
+router.post('/send-reset-link', async (req, res, next) => {
   try {
     connection.query(
       "select * from users where email='" + req.body.email + "'",
@@ -75,10 +75,10 @@ router.post("/send-reset-link", async (req, res, next) => {
         if (results.length > 0) {
           // create reusable transporter object using the default SMTP transport
           let transporter = nodemailer.createTransport({
-            service: "gmail",
+            service: 'gmail',
             auth: {
-              user: "mail.testing4clients@gmail.com", // generated ethereal user
-              pass: "mailtestingforclients", // generated ethereal password
+              user: 'mail.testing4clients@gmail.com', // generated ethereal user
+              pass: 'mailtestingforclients', // generated ethereal password
             },
           });
 
@@ -90,28 +90,28 @@ router.post("/send-reset-link", async (req, res, next) => {
               time: new Date(),
             },
           };
-          const token = jwt.sign(payload, config.get("jwtSecret"), {
+          const token = jwt.sign(payload, config.get('jwtSecret'), {
             expiresIn: 36000,
           });
 
           // send mail with defined transport object
-          let info = await transporter.sendMail({
-            from: '"Eaglance lnc." <mail.testing4clients@gmail.com>', // sender address
-            to: req.body.email, // list of receivers
-            subject: "Eaglance - Forget Password", // Subject line
-            html:
-              "<h3>forget password link: <a href='" +
-              baseUrl +
-              "/reset?code=" +
-              token +
-              "'>click here</a></h3> <h2>Or</h2> <h3> click or Copy paste this URL to your browser</h3>" +
-              baseUrl +
-              "/reset?code=" +
-              token +
-              "", // html body
-          });
+          // let info = await transporter.sendMail({
+          //   from: '"AlphaWork lnc." <mail.testing4clients@gmail.com>', // sender address
+          //   to: req.body.email, // list of receivers
+          //   subject: 'AlphaWork - Forget Password', // Subject line
+          //   html:
+          //     "<h3>forget password link: <a href='" +
+          //     baseUrl +
+          //     '/reset?code=' +
+          //     token +
+          //     "'>click here</a></h3> <h2>Or</h2> <h3> click or Copy paste this URL to your browser</h3>" +
+          //     baseUrl +
+          //     '/reset?code=' +
+          //     token +
+          //     '', // html body
+          // });
 
-          let sql = "update users set forget_code=?,expirytime=? where email=?";
+          let sql = 'update users set forget_code=?,expirytime=? where email=?';
 
           connection.query(
             sql,
@@ -129,18 +129,18 @@ router.post("/send-reset-link", async (req, res, next) => {
     );
   } catch (error) {
     console.log(error.message);
-    return res.status(500).send("server error " + error.message);
+    return res.status(500).send('server error ' + error.message);
   }
 });
 
-router.post("/is-expired-link/", async (req, res, next) => {
+router.post('/is-expired-link/', async (req, res, next) => {
   try {
-    const decoded = jwt.verify(req.body.token, config.get("jwtSecret"));
+    const decoded = jwt.verify(req.body.token, config.get('jwtSecret'));
 
     if (decoded.user) {
       console.log(decoded.user.email, req.body.token);
       connection.query(
-        "select * from users where email=? and forget_code=? AND expirytime >= DATE_SUB(NOW(), INTERVAL 1 HOUR)",
+        'select * from users where email=? and forget_code=? AND expirytime >= DATE_SUB(NOW(), INTERVAL 1 HOUR)',
         [decoded.user.email, req.body.token],
         async (error, results, fields) => {
           if (error) throw error;
@@ -156,22 +156,22 @@ router.post("/is-expired-link/", async (req, res, next) => {
     }
   } catch (error) {
     console.log(error.message);
-    return res.status(500).send("server error " + error.message);
+    return res.status(500).send('server error ' + error.message);
   }
 });
 
-router.post("/reset-password/", async (req, res, next) => {
+router.post('/reset-password/', async (req, res, next) => {
   try {
     const salt = await bcrypt.genSalt(10);
     let pass = await bcrypt.hash(req.body.newPassword, salt);
-    const decoded = jwt.verify(req.body.token, config.get("jwtSecret"));
-    console.log("============================");
+    const decoded = jwt.verify(req.body.token, config.get('jwtSecret'));
+    console.log('============================');
     console.log(decoded);
     if (decoded.user) {
       console.log(decoded.user.email, req.body.token);
       //
       connection.query(
-        "select * from users where email=? and forget_code=? AND expirytime >= DATE_SUB(NOW(), INTERVAL 1 HOUR)",
+        'select * from users where email=? and forget_code=? AND expirytime >= DATE_SUB(NOW(), INTERVAL 1 HOUR)',
         [decoded.user.email, req.body.token],
         async (error, results, fields) => {
           if (error) throw error;
@@ -199,7 +199,7 @@ router.post("/reset-password/", async (req, res, next) => {
     }
   } catch (error) {
     console.log(error.message);
-    return res.status(500).send("server error " + error.message);
+    return res.status(500).send('server error ' + error.message);
   }
 });
 
@@ -207,7 +207,7 @@ router.post("/reset-password/", async (req, res, next) => {
 //  @desc   checking username
 //  @access Public
 
-router.get("/checkusername/:username", (req, res, next) => {
+router.get('/checkusername/:username', (req, res, next) => {
   try {
     connection.query(
       "select * from users where username='" + req.params.username + "'",
@@ -223,12 +223,12 @@ router.get("/checkusername/:username", (req, res, next) => {
     );
   } catch (error) {
     console.log(error.message);
-    return res.status(500).send("server error " + error.message);
+    return res.status(500).send('server error ' + error.message);
   }
 });
 
 // GET /logout
-router.get("/logout", function (req, res, next) {
+router.get('/logout', function (req, res, next) {
   console.log(req.seesion);
   if (req.session) {
     // delete session object
@@ -246,10 +246,10 @@ router.get("/logout", function (req, res, next) {
 // post api/auth
 
 router.post(
-  "/",
+  '/',
   [
-    check("email", "please included a valid email").exists(),
-    check("password", "password should exists").exists(),
+    check('email', 'please included a valid email').exists(),
+    check('password', 'password should exists').exists(),
   ],
   async (req, res) => {
     const error = validationResult(req);
@@ -260,7 +260,7 @@ router.post(
 
     try {
       connection.query(
-        "select id,username,email,fname,lname,account_type,password from users where (email=? or username=?)",
+        'select id,username,email,fname,lname,account_type,password from users where (email=? or username=?)',
         [email, email],
         async function (error, results, fields) {
           if (error) throw error;
@@ -273,9 +273,9 @@ router.post(
             } else {
               console.log(isMatch);
               console.log(results);
-              let currentType = "buyer";
-              if (results[0].account_type.includes("seller")) {
-                currentType = "seller";
+              let currentType = 'buyer';
+              if (results[0].account_type.includes('seller')) {
+                currentType = 'seller';
               }
               const payload = {
                 user: {
@@ -286,7 +286,7 @@ router.post(
                   current_type: currentType,
                 },
               };
-              const token = jwt.sign(payload, config.get("jwtSecret"), {
+              const token = jwt.sign(payload, config.get('jwtSecret'), {
                 expiresIn: 36000,
               });
 
@@ -299,7 +299,7 @@ router.post(
       );
     } catch (error) {
       console.log(error.message);
-      return res.status(500).json({ error: "Server error" });
+      return res.status(500).json({ error: 'Server error' });
     }
   }
 );
@@ -307,19 +307,19 @@ router.post(
 // post login user
 // post api/auth
 
-router.get("/switch-to-buying", [auth], async (req, res) => {
+router.get('/switch-to-buying', [auth], async (req, res) => {
   const error = validationResult(req);
   if (!error.isEmpty()) {
     return res.status(400).json({ error: error.array() });
   }
   try {
     connection.query(
-      "select id,username,email,fname,lname,account_type from users where username=?",
+      'select id,username,email,fname,lname,account_type from users where username=?',
       [req.user.username],
       function (error, results, fields) {
         if (error) throw error;
         if (results.length > 0) {
-          let currentType = "buyer";
+          let currentType = 'buyer';
           // if (results[0].account_type.includes("seller")) {
           //   currentType = "seller";
           // }
@@ -331,7 +331,7 @@ router.get("/switch-to-buying", [auth], async (req, res) => {
               current_type: currentType,
             },
           };
-          const token = jwt.sign(payload, config.get("jwtSecret"), {
+          const token = jwt.sign(payload, config.get('jwtSecret'), {
             expiresIn: 36000,
           });
 
@@ -343,28 +343,28 @@ router.get("/switch-to-buying", [auth], async (req, res) => {
     );
   } catch (error) {
     console.log(error.message);
-    return res.status(500).json({ error: "Server error" });
+    return res.status(500).json({ error: 'Server error' });
   }
 });
 
 // post login user
 // post api/auth
 
-router.get("/switch-to-selling", [auth], async (req, res) => {
+router.get('/switch-to-selling', [auth], async (req, res) => {
   const error = validationResult(req);
   if (!error.isEmpty()) {
     return res.status(400).json({ error: error.array() });
   }
   try {
     connection.query(
-      "select id,username,email,fname,lname,account_type from users where username=?",
+      'select id,username,email,fname,lname,account_type from users where username=?',
       [req.user.username],
       function (error, results, fields) {
         if (error) throw error;
         if (results.length > 0) {
-          let currentType = "buyer";
-          if (results[0].account_type.includes("seller")) {
-            currentType = "seller";
+          let currentType = 'buyer';
+          if (results[0].account_type.includes('seller')) {
+            currentType = 'seller';
           }
           const payload = {
             user: {
@@ -374,7 +374,7 @@ router.get("/switch-to-selling", [auth], async (req, res) => {
               current_type: currentType,
             },
           };
-          const token = jwt.sign(payload, config.get("jwtSecret"), {
+          const token = jwt.sign(payload, config.get('jwtSecret'), {
             expiresIn: 36000,
           });
 
@@ -386,23 +386,23 @@ router.get("/switch-to-selling", [auth], async (req, res) => {
     );
   } catch (error) {
     console.log(error.message);
-    return res.status(500).json({ error: "Server error" });
+    return res.status(500).json({ error: 'Server error' });
   }
 });
 
-router.post("/aggrement-selling-on-eaglance", [auth], async (req, res) => {
+router.post('/aggrement-selling-on-eaglance', [auth], async (req, res) => {
   const error = validationResult(req);
   if (!error.isEmpty()) {
     return res.status(400).json({ error: error.array() });
   }
   try {
     connection.query(
-      "select id,username,email,fname,lname,account_type from users where username=?",
+      'select id,username,email,fname,lname,account_type from users where username=?',
       [req.user.username],
       function (error, results, fields) {
         if (error) throw error;
         if (results.length > 0) {
-          let currentType = "buyer";
+          let currentType = 'buyer';
           const payload = {
             user: {
               id: results[0].id,
@@ -411,16 +411,16 @@ router.post("/aggrement-selling-on-eaglance", [auth], async (req, res) => {
               current_type: currentType,
             },
           };
-          if (results[0].account_type.includes("seller")) {
-            return res.status(200).json({ found: false,null: null }); 
+          if (results[0].account_type.includes('seller')) {
+            return res.status(200).json({ found: false, null: null });
           } else {
             connection.query(
               "update users set account_type='buyer,seller' where username=?",
               [req.user.username],
               function (error, results, fields) {
-                currentType = "seller";
-                payload.current_type=currentType;
-                const token = jwt.sign(payload, config.get("jwtSecret"), {
+                currentType = 'seller';
+                payload.current_type = currentType;
+                const token = jwt.sign(payload, config.get('jwtSecret'), {
                   expiresIn: 36000,
                 });
                 return res.status(200).json({ found: true, token: token });
@@ -434,7 +434,7 @@ router.post("/aggrement-selling-on-eaglance", [auth], async (req, res) => {
     );
   } catch (error) {
     console.log(error.message);
-    return res.status(500).json({ error: "Server error" });
+    return res.status(500).json({ error: 'Server error' });
   }
 });
 
